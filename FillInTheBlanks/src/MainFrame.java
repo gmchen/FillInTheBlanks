@@ -86,7 +86,7 @@ public class MainFrame extends JFrame
 		    }
 		}, eventMask);
 		
-		this.setTitle("Questions From Slides");
+		this.setTitle("Fill In The Blanks");
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
