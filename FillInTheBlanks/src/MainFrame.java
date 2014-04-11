@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -58,6 +58,7 @@ public class MainFrame extends JFrame
 	JPanel bottomPanel;
 	JPanel topPanel;
 	JCheckBox slideshowCheckBox;
+	Random random;
 	/**
 	 * Constructor for the MainFrame.
 	 */
@@ -65,6 +66,7 @@ public class MainFrame extends JFrame
 	{	
 		phrases = new ArrayList<String>();
 		wordsToExclude = new ArrayList<String>();
+		random = new Random();
 		// Create a mouse click event listener
 		long eventMask = AWTEvent.MOUSE_EVENT_MASK;
 		Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
@@ -259,6 +261,10 @@ public class MainFrame extends JFrame
 		while(!q.isEmpty()) {
 			String str = q.poll();
 			str = str.trim();
+			str = str.replaceAll("\\•", "");
+			str = str.replaceAll("^[\\- ]*", "");
+			str = str.replaceAll(" +", " ");
+			
 			if(str.length() <= maxLength) {
 				if(str.length() >= minLength) {
 					finalSentenceList.add(str);
@@ -312,6 +318,15 @@ public class MainFrame extends JFrame
 		inputTextField.requestFocus();
 		inputTextField.selectAll();
 		System.out.println("submit");
+		
+		// Get new phrase
+		int index = random.nextInt(phrases.size());
+		String phrase = phrases.get(index);
+		String[] words = phrase.split(" ");
+		ArrayList<String> removableWords = new ArrayList<String>();
+		for(String word:words) {
+			
+		}
 	}
 	
 	/**
