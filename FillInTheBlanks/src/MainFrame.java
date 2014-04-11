@@ -8,6 +8,9 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,12 +22,17 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
@@ -51,7 +59,7 @@ public class MainFrame extends JFrame
 	JButton fileDialogButton;
 	JButton submitButton;
 	JTextArea outputTextArea;
-	JTextArea inputTextArea;
+	JTextField inputTextField;
 	JPanel bottomPanel;
 	JPanel topPanel;
 	JCheckBox slideshowCheckBox;
@@ -71,6 +79,15 @@ public class MainFrame extends JFrame
 		    	handleMouseEvent((MouseEvent) e);
 		    }
 		}, eventMask);
+		// Create a keyboard event listener
+		long keyEventMask = AWTEvent.KEY_EVENT_MASK;
+		Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
+		{
+		    public void eventDispatched(AWTEvent e)
+		    {
+		    	handleKeyEvent((KeyEvent) e);
+		    }
+		}, keyEventMask);
 		
 		this.setTitle("Questions From Slides");
 		this.setSize(600, 400);
@@ -100,8 +117,7 @@ public class MainFrame extends JFrame
 		outputTextArea.setBackground(new Color(98, 145, 255));
 		
 		// Create the input area
-		inputTextArea = new JTextArea("Input text area");
-		inputTextArea.setVisible(true);
+		inputTextField = new JTextField("Input text field");
 		
 		// Create the submit button
 		submitButton = new JButton("Submit");
@@ -128,7 +144,7 @@ public class MainFrame extends JFrame
 		c1.gridx = 0;
 		c1.gridy = 0;
 		c1.weightx = 0.7;
-		bottomPanel.add(inputTextArea,c1);
+		bottomPanel.add(inputTextField,c1);
 		GridBagConstraints c2 = new GridBagConstraints();
 		c2.fill = GridBagConstraints.HORIZONTAL;
 		c2.gridwidth = 1;
@@ -143,8 +159,8 @@ public class MainFrame extends JFrame
 		
 		// Start stuff
 		this.setVisible(true);
-		inputTextArea.selectAll();
-		inputTextArea.requestFocus();
+		inputTextField.selectAll();
+		inputTextField.requestFocus();
 	}
 	
 	/**
@@ -304,7 +320,9 @@ public class MainFrame extends JFrame
 	 * Submit
 	 */
 	private void submit() {
-		
+		inputTextField.requestFocus();
+		inputTextField.selectAll();
+		System.out.println("submit");
 	}
 	
 	/**
@@ -313,9 +331,19 @@ public class MainFrame extends JFrame
 	 */
 	private void handleMouseEvent(MouseEvent e) {
 		// No matter what, give the input text area the focus
-		inputTextArea.requestFocus();
+		inputTextField.requestFocus();
 	}
-
+	
+	/**
+	 * Handle key events
+	 * @param e
+	 */
+	private void handleKeyEvent(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			submit();
+		}
+	}
+	
 	private void getWordsToExlude() {
 		Scanner scanner = null;
 		try {
