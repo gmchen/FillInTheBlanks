@@ -53,6 +53,8 @@ public class MainFrame extends JFrame
 {
 	private List<String> phrases;
 	private List<String> wordsToExclude;
+	private String currentMissingWord;
+	private int currentPhraseIndex;
 	JButton fileDialogButton;
 	JButton submitButton;
 	JTextArea outputTextArea;
@@ -248,6 +250,10 @@ public class MainFrame extends JFrame
 					}
 				}
 			}
+			for(String s:phrases) {
+				System.out.println(s);
+			}
+			outputTextArea.setText("Loaded text!");
 		}
 	}
 	
@@ -322,16 +328,22 @@ public class MainFrame extends JFrame
 		int index = random.nextInt(phrases.size());
 		String phrase = phrases.get(index);
 		String[] words = phrase.split(" ");
-		ArrayList<String> removableWords = new ArrayList<String>();
-		for(String word:words) {
-			String compareWord = word.replaceAll("[^A-Za-z]", "").toUpperCase();
+		ArrayList<Integer> removableWordIndexes = new ArrayList<Integer>();
+		for(int i = 0; i < words.length; i++) {
+			String compareWord = words[i].replaceAll("[^A-Za-z]", "").toUpperCase();
 			int wordIndex = Collections.binarySearch(wordsToExclude, compareWord);
-			if(wordIndex >= 0) {
-				System.out.println(word + "\t" + wordsToExclude.get(wordIndex));
+			if(wordIndex < 0) {
+				removableWordIndexes.add(i);
 			}
-			else {
-				System.out.println(word);
+		}
+		if(removableWordIndexes.size() > 0) {
+			int randomRemovableIndex = removableWordIndexes.get(random.nextInt(removableWordIndexes.size()));
+			String replacement = "";
+			for(int i = 0; i < words[randomRemovableIndex].length(); i++) {
+				replacement += "_";
 			}
+			phrase = phrase.replace(words[randomRemovableIndex], replacement);
+			outputTextArea.setText(phrase);
 		}
 	}
 	

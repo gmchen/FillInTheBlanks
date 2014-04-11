@@ -77,7 +77,6 @@ then
 its
 our
 two
-more
 these
 want
 way
@@ -473,7 +472,6 @@ free
 military
 price
 report
-less
 according
 decision
 explain
@@ -655,7 +653,6 @@ wrong
 involve
 defense
 anyone
-increase
 security
 bank
 myself
@@ -1701,7 +1698,7 @@ recommend
 obvious
 train
 basically
-e-mail
+email
 generate
 anymore
 propose
@@ -1772,7 +1769,7 @@ extremely
 extent
 component
 mix
-long-term
+longterm
 slow
 contrast
 zone
@@ -1980,7 +1977,6 @@ dance
 vast
 resolution
 household
-fewer
 abortion
 apart
 witness
@@ -2405,7 +2401,7 @@ stop
 strongly
 engineering
 luck
-so-called
+socalled
 constant
 race
 clinic
@@ -2962,7 +2958,7 @@ round
 vessel
 storage
 flee
-mm-hmm
+mmhmm
 leather
 distribute
 evolution
@@ -3336,7 +3332,7 @@ mouse
 rope
 concrete
 prescription
-African-American
+AfricanAmerican
 chase
 document
 brick
@@ -3396,7 +3392,6 @@ inquiry
 rose
 surprisingly
 highlight
-decrease
 indication
 rail
 anniversary
@@ -3517,7 +3512,7 @@ pig
 cold
 classical
 estimated
-T-shirt
+Tshirt
 online
 unemployment
 civilization
@@ -3648,7 +3643,7 @@ temple
 medium
 outdoor
 suck
-and/or
+andor
 broadcast
 re
 leap
@@ -3799,10 +3794,10 @@ relieve
 suspicion
 lock
 finish
-health-care
-health-care
-health-care
-health-care
+healthcare
+healthcare
+healthcare
+healthcare
 residence
 shame
 meaningful
@@ -3971,7 +3966,7 @@ worry
 judicial
 entity
 suffering
-full-time
+fulltime
 feel
 lamp
 garbage
@@ -4096,18 +4091,18 @@ sentiment
 cart
 oversee
 stem
-o'clock
+oclock
 elder
-o'clock
-o'clock
-o'clock
+oclock
+oclock
+oclock
 pro
 inspiration
 Dutch
 quantity
 trailer
 mate
-o'clock
+oclock
 Greek
 genius
 monument
@@ -4292,7 +4287,7 @@ ministry
 verdict
 instruct
 skull
-self-esteem
+selfesteem
 ease
 cooperative
 manipulate
@@ -4396,7 +4391,7 @@ interact
 soap
 cute
 rival
-short-term
+shortterm
 punch
 pin
 hockey
@@ -4450,7 +4445,7 @@ dough
 grandchild
 dam
 reportedly
-well-known
+wellknown
 surrounding
 ecological
 outfit
@@ -4596,7 +4591,7 @@ publicity
 major
 unfold
 joke
-well-being
+wellbeing
 validity
 ecosystem
 strictly
@@ -4616,7 +4611,7 @@ artifact
 sneak
 monkey
 mentor
-two-thirds
+twothirds
 listener
 lightning
 legally
@@ -4625,7 +4620,7 @@ disappointment
 disturb
 rib
 excessive
-high-tech
+hightech
 debris
 pile
 rod
@@ -4795,7 +4790,7 @@ globe
 fragile
 objection
 chemistry
-old-fashioned
+oldfashioned
 crowded
 circle
 blast
@@ -4861,7 +4856,7 @@ broadcast
 premium
 accountability
 overwhelm
-one-third
+onethird
 contemplate
 update
 spark
@@ -5003,6 +4998,10 @@ naval
 plaintiff
 immigrant
 kid
-middle-class
+middleclass
 apology
 arent
+gonna
+goes
+edges
+is
