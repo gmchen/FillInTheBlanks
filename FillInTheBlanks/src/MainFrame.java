@@ -332,13 +332,17 @@ public class MainFrame extends JFrame
 		inputTextField.requestFocus();
 		inputTextField.selectAll();
 		
+		if(phrases.size() == 0) {
+			return;
+		}
+		
 		String previousTextInfo = "";
 		
 		//Check previous phrase
 		if(currentMissingWord != null) {
 			previousTextInfo += "\n\n---------- Previous phrase: ----------\n\n";
 			if(equalsIgnoringSymbols(inputTextField.getText(), currentMissingWord)) {
-				previousTextInfo += "Correct!!!!!\n\n";
+				previousTextInfo += "Correct!!!!!\n\nThe missing word was \"" + currentMissingWord + "\"\n";
 			}
 			else {
 				previousTextInfo += "The missing word was \"" + currentMissingWord + "\"\n";
@@ -352,6 +356,9 @@ public class MainFrame extends JFrame
 		String[] words = phrase.split(" ");
 		ArrayList<Integer> removableWordIndexes = new ArrayList<Integer>();
 		for(int i = 0; i < words.length; i++) {
+			if(words[i].length() <= 2 && !words[i].matches("^[A-Za-z0-9]")) {
+				continue;
+			}
 			String compareWord = words[i].replaceAll("[^A-Za-z]", "").toUpperCase();
 			int wordIndex = Collections.binarySearch(wordsToExclude, compareWord);
 			if(wordIndex < 0) {
@@ -394,15 +401,16 @@ public class MainFrame extends JFrame
 	}
 	
 	/**
-	 * Read the fild data/words_to_exclude.txt and initialize and sort the array
+	 * Read the file data/words_to_exclude.txt and initialize and sort the array
 	 */
 	private void getWordsToExlude() {
 		Scanner scanner = null;
 		scanner = new Scanner(this.getClass().getClassLoader().getResourceAsStream("resources/data/words_to_exclude.txt"));
 		
 		while(scanner.hasNext()) {
-			wordsToExclude.add(scanner.next().toUpperCase());
-			wordsToExclude.add(scanner.next().toUpperCase() + "S");
+			String word = scanner.next().toUpperCase();
+			wordsToExclude.add(word);
+			wordsToExclude.add(word + "S");
 		}
 		scanner.close();
 		Collections.sort(wordsToExclude, String.CASE_INSENSITIVE_ORDER);
