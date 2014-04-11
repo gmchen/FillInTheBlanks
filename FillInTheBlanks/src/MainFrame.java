@@ -398,15 +398,13 @@ public class MainFrame extends JFrame
 	 */
 	private void getWordsToExlude() {
 		Scanner scanner = null;
-		try {
-			scanner = new Scanner(new File("data/words_to_exclude.txt"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		scanner = new Scanner(this.getClass().getClassLoader().getResourceAsStream("resources/data/words_to_exclude.txt"));
+		
 		while(scanner.hasNext()) {
 			wordsToExclude.add(scanner.next().toUpperCase());
 			wordsToExclude.add(scanner.next().toUpperCase() + "S");
 		}
+		scanner.close();
 		Collections.sort(wordsToExclude, String.CASE_INSENSITIVE_ORDER);
 	}
 
