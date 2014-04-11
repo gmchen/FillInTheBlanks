@@ -1,6 +1,7 @@
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -13,8 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,9 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -53,7 +57,7 @@ public class MainFrame extends JFrame
 {
 	private List<String> phrases;
 	private List<String> wordsToExclude;
-	private String currentMissingWord;
+	private String currentMissingWord = null;
 	private int currentPhraseIndex;
 	JButton fileDialogButton;
 	JButton submitButton;
@@ -108,7 +112,9 @@ public class MainFrame extends JFrame
 		outputTextArea = new JTextArea("Output text area");
 		outputTextArea.setVisible(true);
 		outputTextArea.setBackground(new Color(98, 145, 255));
-		
+		outputTextArea.setLineWrap(true);
+		outputTextArea.setWrapStyleWord(true);
+		outputTextArea.setFont(new Font("Serif",Font.PLAIN,14));
 		// Create the input area
 		inputTextField = new JTextField("Input text field");
 		
@@ -194,6 +200,8 @@ public class MainFrame extends JFrame
 						parser.parse(new FileInputStream(f), handler, new Metadata(), new ParseContext());
 						
 						text = handler.toString();
+						// Assume a return followed by lower case letter is a result of line wrapping of the same sentence.
+						text = text.replaceAll("\\s+(?=[a-z])", " ");
 					} catch (IOException | SAXException
 							| TikaException e1) {
 						// TODO Auto-generated catch block
@@ -250,9 +258,6 @@ public class MainFrame extends JFrame
 					}
 				}
 			}
-			for(String s:phrases) {
-				System.out.println(s);
-			}
 			outputTextArea.setText("Loaded text!");
 		}
 	}
@@ -267,7 +272,10 @@ public class MainFrame extends JFrame
 		while(!q.isEmpty()) {
 			String str = q.poll();
 			str = str.trim();
+			str = str.replaceAll("\\p{C}", "");
 			str = str.replaceAll("\\•", "");
+			str = str.replaceAll("\\○", "");
+			str = str.replaceAll("\\□", "");
 			str = str.replaceAll("^[\\- ]*", "");
 			str = str.replaceAll(" +", " ");
 			
@@ -324,9 +332,23 @@ public class MainFrame extends JFrame
 		inputTextField.requestFocus();
 		inputTextField.selectAll();
 		
+		String previousTextInfo = "";
+		
+		//Check previous phrase
+		if(currentMissingWord != null) {
+			previousTextInfo += "\n\n---------- Previous phrase: ----------\n\n";
+			if(equalsIgnoringSymbols(inputTextField.getText(), currentMissingWord)) {
+				previousTextInfo += "Correct!!!!!\n\n";
+			}
+			else {
+				previousTextInfo += "The missing word was \"" + currentMissingWord + "\"\n";
+			}
+			previousTextInfo += phrases.get(currentPhraseIndex);
+		}
+		
 		// Get new phrase
-		int index = random.nextInt(phrases.size());
-		String phrase = phrases.get(index);
+		int randomPhraseIndex = random.nextInt(phrases.size());
+		String phrase = phrases.get(randomPhraseIndex);
 		String[] words = phrase.split(" ");
 		ArrayList<Integer> removableWordIndexes = new ArrayList<Integer>();
 		for(int i = 0; i < words.length; i++) {
@@ -342,8 +364,23 @@ public class MainFrame extends JFrame
 			for(int i = 0; i < words[randomRemovableIndex].length(); i++) {
 				replacement += "_";
 			}
-			phrase = phrase.replace(words[randomRemovableIndex], replacement);
-			outputTextArea.setText(phrase);
+			
+			String phraseToShow = "";
+			for(int i = 0; i < words.length; i++) {
+				if(i != 0) {
+					phraseToShow += " ";
+				}
+				if(i == randomRemovableIndex) {
+					phraseToShow += replacement;
+				}
+				else {
+					phraseToShow += words[i];
+				}
+			}
+			currentMissingWord = words[randomRemovableIndex];
+			currentPhraseIndex = randomPhraseIndex;
+			phraseToShow = "---------- Current phrase: ----------\n\n" + phraseToShow;
+			outputTextArea.setText(phraseToShow + previousTextInfo);
 		}
 	}
 	
@@ -356,6 +393,9 @@ public class MainFrame extends JFrame
 		inputTextField.requestFocus();
 	}
 	
+	/**
+	 * Read the fild data/words_to_exclude.txt and initialize and sort the array
+	 */
 	private void getWordsToExlude() {
 		Scanner scanner = null;
 		try {
@@ -365,7 +405,21 @@ public class MainFrame extends JFrame
 		}
 		while(scanner.hasNext()) {
 			wordsToExclude.add(scanner.next().toUpperCase());
+			wordsToExclude.add(scanner.next().toUpperCase() + "S");
 		}
 		Collections.sort(wordsToExclude, String.CASE_INSENSITIVE_ORDER);
 	}
+
+	/**
+	 * Check if two strings are equal, ignoring case and non alphabetical symbols
+	 * @param string1
+	 * @param string2
+	 * @return
+	 */
+	private boolean equalsIgnoringSymbols(String string1, String string2) {
+		string1 = string1.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
+		string2 = string2.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
+		return string1.equals(string2);
+	}
+
 }
