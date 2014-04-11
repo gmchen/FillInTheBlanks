@@ -8,9 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,17 +20,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
@@ -45,6 +39,7 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.microsoft.OfficeParser;
 import org.apache.tika.parser.microsoft.ooxml.OOXMLParser;
 import org.apache.tika.parser.odf.OpenDocumentParser;
+import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.txt.TXTParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.SAXException;
@@ -169,7 +164,7 @@ public class MainFrame extends JFrame
 	private void openDialog() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(true);
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Available file types", "ppt", "pptx", "doc", "docx", "odt", "odp", "txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Available file types", "ppt", "pptx", "doc", "docx", "odt", "odp", "txt", "pdf"));
 		int returnVal = fileChooser.showOpenDialog(this);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] files = fileChooser.getSelectedFiles(); 
@@ -190,6 +185,9 @@ public class MainFrame extends JFrame
 				}
 				else if(fileName.endsWith(".txt")) {
 					parser = new TXTParser();
+				}
+				else if(fileName.endsWith(".pdf")) {
+					parser = new PDFParser();
 				}
 				
 				if(parser != null) {
