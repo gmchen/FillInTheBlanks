@@ -74,15 +74,6 @@ public class MainFrame extends JFrame
 		    	handleMouseEvent((MouseEvent) e);
 		    }
 		}, eventMask);
-		// Create a keyboard event listener
-		long keyEventMask = AWTEvent.KEY_EVENT_MASK;
-		Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
-		{
-		    public void eventDispatched(AWTEvent e)
-		    {
-		    	handleKeyEvent((KeyEvent) e);
-		    }
-		}, keyEventMask);
 		
 		this.setTitle("Questions From Slides");
 		this.setSize(600, 400);
@@ -117,7 +108,7 @@ public class MainFrame extends JFrame
 		// Create the submit button
 		submitButton = new JButton("Submit");
 		submitButton.setActionCommand("Submit");
-		fileDialogButton.addActionListener( new ActionListener()
+		submitButton.addActionListener( new ActionListener()
 		{
 			public void actionPerformed(ActionEvent event) 
 			{
@@ -330,16 +321,6 @@ public class MainFrame extends JFrame
 	private void handleMouseEvent(MouseEvent e) {
 		// No matter what, give the input text area the focus
 		inputTextField.requestFocus();
-	}
-	
-	/**
-	 * Handle key events
-	 * @param e
-	 */
-	private void handleKeyEvent(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			submit();
-		}
 	}
 	
 	private void getWordsToExlude() {
