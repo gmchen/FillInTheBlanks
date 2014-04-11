@@ -14,6 +14,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -67,6 +69,7 @@ public class MainFrame extends JFrame
 		phrases = new ArrayList<String>();
 		wordsToExclude = new ArrayList<String>();
 		random = new Random();
+		getWordsToExlude();
 		// Create a mouse click event listener
 		long eventMask = AWTEvent.MOUSE_EVENT_MASK;
 		Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
@@ -244,9 +247,6 @@ public class MainFrame extends JFrame
 						phrases.addAll(newPhrases);
 					}
 				}
-				for(String s:phrases) {
-					System.out.println(s);
-				}
 			}
 		}
 	}
@@ -317,7 +317,6 @@ public class MainFrame extends JFrame
 	private void submit() {
 		inputTextField.requestFocus();
 		inputTextField.selectAll();
-		System.out.println("submit");
 		
 		// Get new phrase
 		int index = random.nextInt(phrases.size());
@@ -325,7 +324,14 @@ public class MainFrame extends JFrame
 		String[] words = phrase.split(" ");
 		ArrayList<String> removableWords = new ArrayList<String>();
 		for(String word:words) {
-			
+			String compareWord = word.replaceAll("[^A-Za-z]", "").toUpperCase();
+			int wordIndex = Collections.binarySearch(wordsToExclude, compareWord);
+			if(wordIndex >= 0) {
+				System.out.println(word + "\t" + wordsToExclude.get(wordIndex));
+			}
+			else {
+				System.out.println(word);
+			}
 		}
 	}
 	
@@ -346,7 +352,8 @@ public class MainFrame extends JFrame
 			e.printStackTrace();
 		}
 		while(scanner.hasNext()) {
-			wordsToExclude.add(scanner.next());
+			wordsToExclude.add(scanner.next().toUpperCase());
 		}
+		Collections.sort(wordsToExclude, String.CASE_INSENSITIVE_ORDER);
 	}
 }

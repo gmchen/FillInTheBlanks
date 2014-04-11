@@ -189,7 +189,6 @@ company
 where
 system
 each
-right
 program
 hear
 so
@@ -768,7 +767,6 @@ answer
 hard
 resource
 identify
-left
 meeting
 determine
 prepare
@@ -2774,7 +2772,6 @@ conservative
 process
 square
 stick
-concentration
 complicated
 gently
 champion
@@ -2852,7 +2849,6 @@ unknown
 assistant
 offense
 counter
-DNA
 smell
 potentially
 transfer
@@ -5009,4 +5005,4 @@ immigrant
 kid
 middle-class
 apology
-till
+arent
